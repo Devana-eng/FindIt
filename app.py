@@ -15,9 +15,7 @@ os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 app.secret_key = "findit_secret_key"
 
 
-# =========================================================
-# DATABASE CONNECTION
-# =========================================================
+
 
 db = mysql.connector.connect(
     host="localhost",
@@ -29,9 +27,7 @@ db = mysql.connector.connect(
 print("Database connected successfully!")
 
 
-# =========================================================
-# TEXT SIMILARITY
-# =========================================================
+
 
 def text_similarity(text1, text2):
 
@@ -51,38 +47,35 @@ def text_similarity(text1, text2):
     ).ratio()
 
 
-# =========================================================
-# MATCH CALCULATION
-# =========================================================
+
 
 def calculate_match(lost_item, found_item):
 
-    # Item name
+   
     item_name_score = 0
     if lost_item[3].strip().lower() == found_item[3].strip().lower():
         item_name_score = 30
 
-    # Category
+  
     category_score = 0
     if lost_item[4].strip().lower() == found_item[4].strip().lower():
         category_score = 25
 
-    # IMPORTANT:
-    # Different categories cannot be a match
+   
     if category_score == 0:
         return (0, 0, 0, 0, 0, 0)
 
-    # Color
+   
     color_score = 0
     if lost_item[5].strip().lower() == found_item[5].strip().lower():
         color_score = 15
 
-    # Location
+   
     location_score = 0
     if lost_item[6].strip().lower() == found_item[6].strip().lower():
         location_score = 15
 
-    # Date
+    
     date_score = 0
 
     lost_date = datetime.strptime(
@@ -125,9 +118,7 @@ def calculate_match(lost_item, found_item):
         total_score
     )
 
-# =========================================================
-# CREATE MATCH
-# =========================================================
+
 
 def create_match(lost_item, found_item):
 
@@ -135,8 +126,7 @@ def create_match(lost_item, found_item):
 
     try:
 
-        # Check whether this exact Lost + Found pair
-        # already exists
+       
         check_query = """
         SELECT id
         FROM matches
@@ -154,7 +144,7 @@ def create_match(lost_item, found_item):
 
         existing_match = cursor.fetchone()
 
-        # If already matched, do nothing
+       
         if existing_match:
 
             print(
@@ -168,7 +158,7 @@ def create_match(lost_item, found_item):
 
             return False
 
-        # Calculate match score
+     
         scores = calculate_match(
             lost_item,
             found_item
@@ -180,14 +170,14 @@ def create_match(lost_item, found_item):
         date_score = scores[4]
         total_score = scores[5]
 
-        # Safety check
+        
         if total_score < 65:
 
             cursor.close()
 
             return False
 
-        # Create the match
+    
         query = """
         INSERT INTO matches
         (
@@ -217,7 +207,7 @@ def create_match(lost_item, found_item):
 
         match_id = cursor.lastrowid
 
-        # Notify the Lost item owner
+        
         notification_query = """
         INSERT INTO notifications
         (
@@ -274,9 +264,7 @@ def create_match(lost_item, found_item):
 
         return False
 
-# =========================================================
-# AUTOMATIC MATCHING
-# =========================================================
+
 
 def check_for_matches(new_item_id, report_type):
 
@@ -284,9 +272,7 @@ def check_for_matches(new_item_id, report_type):
 
     try:
 
-        # -------------------------------------------------
-        # Get newly reported item
-        # -------------------------------------------------
+        
 
         cursor.execute("""
             SELECT
@@ -310,9 +296,7 @@ def check_for_matches(new_item_id, report_type):
 
             return
 
-        # -------------------------------------------------
-        # Get opposite type
-        # -------------------------------------------------
+       
 
         if report_type == "Lost":
 
@@ -352,9 +336,7 @@ def check_for_matches(new_item_id, report_type):
 
         cursor.close()
 
-        # -------------------------------------------------
-        # No opposite reports yet
-        # -------------------------------------------------
+       
 
         if not other_items:
 
@@ -362,9 +344,7 @@ def check_for_matches(new_item_id, report_type):
 
             return
 
-        # -------------------------------------------------
-        # Compare internally
-        # -------------------------------------------------
+    
 
         matches_created = 0
 
@@ -387,9 +367,7 @@ def check_for_matches(new_item_id, report_type):
 
             total_score = scores[5]
 
-            # ---------------------------------------------
-            # Only successful matches are saved
-            # ---------------------------------------------
+           
 
             if total_score >= 65:
 
@@ -418,9 +396,6 @@ def check_for_matches(new_item_id, report_type):
         cursor.close()
 
 
-# =========================================================
-# REGISTER
-# =========================================================
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -444,7 +419,7 @@ def register():
 
         try:
 
-            # Check existing email
+            
 
             cursor.execute(
                 """
@@ -495,9 +470,7 @@ def register():
     return render_template("register.html")
 
 
-# =========================================================
-# LOGIN
-# =========================================================
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -544,9 +517,7 @@ def login():
     return render_template("login.html")
 
 
-# =========================================================
-# LOGOUT
-# =========================================================
+
 
 @app.route("/logout")
 def logout():
@@ -556,9 +527,6 @@ def logout():
     return redirect("/login")
 
 
-# =========================================================
-# HOME
-# =========================================================
 
 @app.route("/")
 def home():
@@ -573,9 +541,6 @@ def home():
     )
 
 
-# =========================================================
-# REPORT ITEM
-# =========================================================
 
 @app.route("/report", methods=["GET", "POST"])
 def report():
@@ -595,9 +560,6 @@ def report():
         description = request.form.get("description")
         verification_detail = request.form.get("verification_detail")
 
-        # -------------------------------------------------
-        # Basic validation
-        # -------------------------------------------------
 
         if not all([
             report_type,
@@ -610,9 +572,6 @@ def report():
 
             return "Please fill all required fields"
 
-        # -------------------------------------------------
-        # Image
-        # -------------------------------------------------
 
         image = request.files.get("image")
 
@@ -631,9 +590,6 @@ def report():
 
             image.save(image_path)
 
-        # -------------------------------------------------
-        # Save item
-        # -------------------------------------------------
 
         cursor = db.cursor()
 
@@ -678,9 +634,6 @@ INSERT INTO items
 
         cursor.close()
 
-        # -------------------------------------------------
-        # Automatically find matches
-        # -------------------------------------------------
 
         check_for_matches(
             new_item_id,
@@ -695,9 +648,6 @@ INSERT INTO items
     )
 
 
-# =========================================================
-# MY ITEMS
-# =========================================================
 
 @app.route("/my-items")
 def my_items():
@@ -741,10 +691,6 @@ def my_items():
     )
 
 
-# =========================================================
-# NOTIFICATIONS
-# =========================================================
-
 @app.route("/notifications")
 def notifications():
 
@@ -783,9 +729,6 @@ def notifications():
     )
 
 
-# =========================================================
-# PROFILE
-# =========================================================
 
 @app.route("/profile")
 def profile():
@@ -824,9 +767,6 @@ def profile():
     )
 
 
-# =========================================================
-# MATCHES
-# =========================================================
 
 @app.route("/matches")
 def matches():
@@ -908,9 +848,6 @@ def matches():
     )
 
 
-# =========================================================
-# VERIFY OWNERSHIP
-# =========================================================
 
 @app.route("/verify", methods=["POST"])
 def verify():
@@ -927,8 +864,6 @@ def verify():
 
     cursor = db.cursor()
 
-    # Get the private verification detail
-    # from the lost item
     query = """
     SELECT
         l.verification_detail
@@ -957,7 +892,7 @@ def verify():
         item[0]
     ).strip().lower()
 
-    # Check the private detail
+   
     if answer == correct_answer:
 
         insert_query = """
@@ -1003,7 +938,6 @@ def verify():
             )
         )
 
-        # Update both items to Verified
         update_query = """
         UPDATE items
         SET status = 'Verified'
@@ -1061,9 +995,6 @@ def verify():
         </a>
         """ % match_id
 
-# =========================================================
-# RUN APPLICATION
-# =========================================================
 
 if __name__ == "__main__":
 
