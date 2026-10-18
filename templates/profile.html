@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile - FindIt</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef1f6;
+            padding: 25px;
+            color: #17233d;
+        }
+
+        .app {
+            max-width: 1400px;
+            min-height: 90vh;
+            margin: auto;
+            background: #ffffff;
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 230px;
+            background: #17233d;
+            color: white;
+            padding: 28px 18px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 45px;
+            padding-left: 12px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu a {
+            color: #cbd2df;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #293956;
+            color: white;
+        }
+
+        .logout {
+            display: block;
+            margin-top: 35px;
+            padding: 14px;
+            color: #ffb4b4;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+
+        /* CONTENT */
+
+        .content {
+            flex: 1;
+            padding: 35px 42px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .topbar h2 {
+            font-size: 26px;
+        }
+
+        .top-user {
+            font-size: 14px;
+            color: #7b8494;
+        }
+
+        .top-user strong {
+            color: #17233d;
+        }
+
+
+        /* PROFILE HERO */
+
+        .profile-hero {
+
+            background: linear-gradient(
+                135deg,
+                #17233d,
+                #273b62
+            );
+
+            border-radius: 20px;
+
+            padding: 32px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 25px;
+
+            color: white;
+
+            margin-bottom: 25px;
+
+            box-shadow: 0 12px 25px rgba(23,35,61,0.15);
+        }
+
+
+        .big-avatar {
+
+            width: 88px;
+            height: 88px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.15);
+
+            border: 2px solid rgba(255,255,255,0.35);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 34px;
+
+            font-weight: bold;
+        }
+
+
+        .profile-hero h1 {
+
+            font-size: 30px;
+
+            margin-bottom: 8px;
+        }
+
+        .profile-hero p {
+
+            color: #cbd5e5;
+
+            font-size: 14px;
+        }
+
+
+        /* GRID */
+
+        .profile-grid {
+
+            display: grid;
+
+            grid-template-columns: 1.4fr 1fr;
+
+            gap: 22px;
+        }
+
+
+        /* CARD */
+
+        .card {
+
+            background: white;
+
+            border: 1px solid #e5e9f0;
+
+            border-radius: 18px;
+
+            padding: 26px;
+
+            box-shadow: 0 5px 18px rgba(0,0,0,0.04);
+        }
+
+        .card h3 {
+
+            font-size: 18px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* ACCOUNT INFORMATION */
+
+        .info-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 17px 0;
+
+            border-bottom: 1px solid #edf0f4;
+        }
+
+        .info-row:last-child {
+
+            border-bottom: none;
+        }
+
+        .info-label {
+
+            color: #8992a2;
+
+            font-size: 12px;
+
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #17233d;
+        }
+
+
+        /* ACCOUNT TYPE */
+
+        .account-box {
+
+            text-align: center;
+
+            padding: 15px;
+        }
+
+        .account-icon {
+
+            width: 65px;
+
+            height: 65px;
+
+            margin: auto;
+
+            border-radius: 16px;
+
+            background: #eef2ff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 28px;
+
+            margin-bottom: 15px;
+        }
+
+        .account-box h4 {
+
+            font-size: 17px;
+
+            margin-bottom: 6px;
+        }
+
+        .account-box p {
+
+            color: #7b8494;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        /* SECURITY */
+
+        .security {
+
+            margin-top: 22px;
+
+            background: #f7f8fa;
+
+            border-radius: 14px;
+
+            padding: 18px;
+
+            display: flex;
+
+            gap: 14px;
+
+            align-items: center;
+        }
+
+        .security-icon {
+
+            font-size: 22px;
+        }
+
+        .security strong {
+
+            font-size: 13px;
+
+            display: block;
+
+            margin-bottom: 4px;
+        }
+
+        .security span {
+
+            font-size: 11px;
+
+            color: #7b8494;
+        }
+
+
+        @media(max-width: 800px) {
+
+            body {
+                padding: 10px;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+            .sidebar {
+                width: 190px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            FindIt
+        </div>
+
+
+        <div class="menu">
+
+            <a href="/">
+                ⌂ &nbsp; Home
+            </a>
+
+            <a href="/report">
+                ＋ &nbsp; Report Item
+            </a>
+
+            
+
+            <a href="/matches">
+                ◈ &nbsp; Matches
+            </a>
+
+            <a href="/notifications">
+                ♢ &nbsp; Notifications
+            </a>
+
+            <a href="/profile" class="active">
+                ◎ &nbsp; Profile
+            </a>
+
+        </div>
+
+
+        <a href="/logout" class="logout">
+            ↪ &nbsp; Logout
+        </a>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="content">
+
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+            <h2>Profile</h2>
+
+            <div class="top-user">
+
+                Welcome,
+                <strong>{{ user_name }}</strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PROFILE HERO -->
+
+        <section class="profile-hero">
+
+            <div class="big-avatar">
+
+                {{ user_name[0].upper() }}
+
+            </div>
+
+
+            <div>
+
+                <h1>{{ user_name }}</h1>
+
+                <p>
+                    FindIt Account · Student User
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PROFILE CONTENT -->
+
+        <div class="profile-grid">
+
+
+            <!-- ACCOUNT INFORMATION -->
+
+            <div class="card">
+
+                <h3>
+                    Account Information
+                </h3>
+
+
+                <div class="info-row">
+
+                    <div>
+
+                        <div class="info-label">
+                            FULL NAME
+                        </div>
+
+                        <div class="info-value">
+                            {{ user_name }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <div>
+
+                        <div class="info-label">
+                            EMAIL ADDRESS
+                        </div>
+
+                        <div class="info-value">
+                            {{ user_email }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <div>
+
+                        <div class="info-label">
+                            ACCOUNT TYPE
+                        </div>
+
+                        <div class="info-value">
+                            Student
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="security">
+
+                    <div class="security-icon">
+                        🔒
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Account Security
+                        </strong>
+
+                        <span>
+                            Your account is protected by FindIt login authentication.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACCOUNT CARD -->
+
+            <div class="card">
+
+                <h3>
+                    FindIt Account
+                </h3>
+
+
+                <div class="account-box">
+
+                    <div class="account-icon">
+                        🔎
+                    </div>
+
+                    <h4>
+                        Lost & Found
+                    </h4>
+
+                    <p>
+                        Use FindIt to report lost and found belongings,
+                        discover potential matches and recover your items.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

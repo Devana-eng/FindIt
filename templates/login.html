@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FindIt - Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 900px;
+            min-height: 520px;
+            background: white;
+            border-radius: 22px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 15px 45px rgba(20, 35, 65, 0.12);
+        }
+
+        /* LEFT SIDE */
+
+        .left-section {
+            width: 45%;
+            background: #17233d;
+            color: white;
+            padding: 55px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .logo span {
+            color: #5c8df6;
+        }
+
+        .left-section h1 {
+            font-size: 34px;
+            line-height: 1.2;
+            margin-bottom: 18px;
+        }
+
+        .left-section p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #cbd3e3;
+        }
+
+        .features {
+            margin-top: 35px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+            font-size: 13px;
+            color: #dbe2ef;
+        }
+
+        .feature-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: #2b3b5e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        /* RIGHT SIDE */
+
+        .right-section {
+            width: 55%;
+            padding: 50px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right-section h2 {
+            color: #17233d;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #7b8496;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 7px;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 46px;
+            border: 1px solid #dce1e9;
+            border-radius: 9px;
+            padding: 0 13px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #5c8df6;
+            box-shadow: 0 0 0 3px rgba(92, 141, 246, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            height: 46px;
+            border: none;
+            border-radius: 9px;
+            background: #17233d;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .login-btn:hover {
+            background: #253557;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #7b8496;
+        }
+
+        .register-link a {
+            color: #426fd1;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        @media (max-width: 750px) {
+
+            .login-container {
+                flex-direction: column;
+            }
+
+            .left-section,
+            .right-section {
+                width: 100%;
+            }
+
+            .left-section {
+                padding: 35px;
+            }
+
+            .right-section {
+                padding: 35px;
+            }
+
+            .features {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <!-- LEFT SIDE -->
+
+        <div class="left-section">
+
+            <div class="logo">
+                Find<span>It</span>
+            </div>
+
+            <h1>
+                Welcome back.
+            </h1>
+
+            <p>
+                Sign in to manage your lost and found
+                items and discover potential matches.
+            </p>
+
+            <div class="features">
+
+                <div class="feature">
+                    <div class="feature-icon">🔎</div>
+                    Smart item matching
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">🤝</div>
+                    Secure verification
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">🔔</div>
+                    Match notifications
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+
+        <div class="right-section">
+
+            <h2>Sign In</h2>
+
+            <p class="subtitle">
+                Login to continue to FindIt.
+            </p>
+
+            <form action="/login" method="POST" autocomplete="off">
+
+    <div class="form-group">
+
+        <label>Email</label>
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            autocomplete="off"
+            required
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>Password</label>
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            autocomplete="new-password"
+            required
+        >
+
+    </div>
+
+
+    <button type="submit" class="login-btn">
+        Login
+    </button>
+
+</form>
+
+
+            <div class="register-link">
+
+                Don't have an account?
+
+                <a href="/register">
+                    Create an account
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

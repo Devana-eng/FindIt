@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FindIt | Matches</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #eef2f8;
+            color: #17233d;
+            padding: 14px;
+        }
+
+        /* =========================================
+           APPLICATION FRAME
+        ========================================= */
+
+        .app {
+            max-width: 1450px;
+            min-height: calc(100vh - 28px);
+            margin: auto;
+            background: #f8faff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 35px rgba(22, 38, 65, 0.10);
+            display: flex;
+        }
+
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+
+        .sidebar {
+            width: 220px;
+            background: #101d36;
+            color: white;
+            padding: 25px 16px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px;
+            margin-bottom: 42px;
+        }
+
+        .logo-mark {
+            width: 35px;
+            height: 35px;
+            border-radius: 11px;
+            background: #6258f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: #8d88ff;
+        }
+
+        .menu-label {
+            color: #71809b;
+            font-size: 9px;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            padding: 0 12px;
+            margin-bottom: 10px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #aeb9cb;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #182946;
+            color: white;
+        }
+
+        .menu a.active {
+            background: #293b67;
+            color: white;
+        }
+
+        .menu-icon {
+            width: 19px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .help-box {
+            background: #172743;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .help-box h4 {
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        .help-box p {
+            color: #8998af;
+            font-size: 9px;
+            line-height: 1.5;
+            margin-bottom: 9px;
+        }
+
+        .help-box a {
+            color: #8d88ff;
+            font-size: 9px;
+            text-decoration: none;
+        }
+
+        .logout {
+            color: #8c99ad;
+            text-decoration: none;
+            font-size: 10px;
+            padding: 8px 12px;
+            display: block;
+        }
+
+
+        /* =========================================
+           MAIN
+        ========================================= */
+
+        .main {
+            flex: 1;
+            min-width: 0;
+            padding: 24px 28px;
+            background: #f8faff;
+        }
+
+
+        /* =========================================
+           TOP BAR
+        ========================================= */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 23px;
+        }
+
+        .page-heading h2 {
+            font-size: 20px;
+            font-weight: 650;
+        }
+
+        .page-heading p {
+            color: #8b96a9;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #e4e5ff;
+            color: #6258f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .user-details strong {
+            display: block;
+            font-size: 10px;
+        }
+
+        .user-details span {
+            display: block;
+            color: #929caf;
+            font-size: 8px;
+            margin-top: 2px;
+        }
+
+
+        /* =========================================
+           PAGE INTRO
+        ========================================= */
+
+        .intro {
+            margin-bottom: 18px;
+        }
+
+        .intro h1 {
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
+
+        .intro p {
+            color: #8b96a9;
+            font-size: 11px;
+        }
+
+
+        /* =========================================
+           MATCH CARD
+        ========================================= */
+
+        .match-card {
+            background: white;
+            border: 1px solid #e9edf4;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: 0.2s;
+        }
+
+        .match-card:hover {
+            box-shadow: 0 7px 20px rgba(30, 50, 80, 0.08);
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .match-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .match-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: #efefff;
+            color: #6258f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .match-title h3 {
+            font-size: 14px;
+        }
+
+        .match-title p {
+            color: #929bad;
+            font-size: 9px;
+            margin-top: 3px;
+        }
+
+        .score {
+            background: #efefff;
+            color: #6258f5;
+            border-radius: 20px;
+            padding: 8px 13px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           ITEMS
+        ========================================= */
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .item-box {
+            background: #f7f8fc;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .item-label {
+            color: #8d88ff;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 7px;
+        }
+
+        .item-name {
+            font-size: 15px;
+            font-weight: 650;
+            margin-bottom: 12px;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 9px;
+        }
+
+        .detail h4 {
+            color: #929bad;
+            font-size: 8px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .detail p {
+            font-size: 10px;
+            color: #17233d;
+        }
+
+
+        /* =========================================
+           SCORE DETAILS
+        ========================================= */
+
+        .score-section {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #edf0f5;
+        }
+
+        .score-title {
+            font-size: 10px;
+            font-weight: 650;
+            margin-bottom: 9px;
+        }
+
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .score-box {
+            background: #f7f8fc;
+            border-radius: 8px;
+            padding: 9px;
+        }
+
+        .score-box span {
+            display: block;
+            color: #929bad;
+            font-size: 8px;
+            margin-bottom: 3px;
+        }
+
+        .score-box strong {
+            font-size: 11px;
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        .match-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .created {
+            color: #9aa3b3;
+            font-size: 9px;
+        }
+
+        .verify-btn {
+            background: #6258f5;
+            color: white;
+            text-decoration: none;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .verify-btn:hover {
+            background: #5148df;
+        }
+
+
+        /* =========================================
+           NO MATCHES
+        ========================================= */
+
+        .empty {
+            background: white;
+            border: 1px solid #e9edf4;
+            border-radius: 14px;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 50px;
+            height: 50px;
+            margin: auto;
+            margin-bottom: 15px;
+            border-radius: 13px;
+            background: #efefff;
+            color: #6258f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .empty h3 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .empty p {
+            color: #929bad;
+            font-size: 10px;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 185px;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .score-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 0;
+            }
+
+            .app {
+                border-radius: 0;
+                min-height: 100vh;
+            }
+
+            .sidebar {
+                width: 65px;
+                padding: 20px 8px;
+            }
+
+            .logo {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .logo-text,
+            .menu-label,
+            .menu a span,
+            .help-box,
+            .logout {
+                display: none;
+            }
+
+            .menu a {
+                justify-content: center;
+                padding: 12px 5px;
+            }
+
+            .main {
+                padding: 20px 15px;
+            }
+
+            .user-details {
+                display: none;
+            }
+
+            .score-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* Verification Section */
+
+.verification-box {
+    margin-top: 24px;
+    padding: 24px;
+    background: #f8f9fd;
+    border: 1px solid #e7eaf2;
+    border-radius: 12px;
+}
+
+.verification-box h3 {
+    margin: 0 0 6px;
+    font-size: 17px;
+    color: #17233d;
+}
+
+.verification-info {
+    margin: 0 0 20px;
+    color: #7d899d;
+    font-size: 11px;
+}
+
+.question {
+    margin-bottom: 16px;
+}
+
+.question label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #4d5b72;
+}
+
+.question input {
+    width: 100%;
+    max-width: 500px;
+    padding: 11px 13px;
+    border: 1px solid #dfe4ee;
+    border-radius: 8px;
+    background: white;
+    color: #17233d;
+    font-size: 12px;
+    outline: none;
+}
+
+.question input:focus {
+    border-color: #6258f5;
+    box-shadow: 0 0 0 3px rgba(98, 88, 245, 0.08);
+}
+
+.submit-verification {
+    margin-top: 4px;
+    padding: 11px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #6258f5;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.submit-verification:hover {
+    background: #5148e8;
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-mark">
+                F
+            </div>
+
+            <div class="logo-text">
+                Find<span>It</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-label">
+            MAIN MENU
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="/">
+                <div class="menu-icon">⌂</div>
+                <span>Home</span>
+            </a>
+
+            <a href="/report">
+                <div class="menu-icon">＋</div>
+                <span>Report Item</span>
+            </a>
+
+            <a href="/matches" class="active">
+                <div class="menu-icon">⌕</div>
+                <span>Matches</span>
+            </a>
+
+            <a href="/notifications">
+                <div class="menu-icon">♢</div>
+                <span>Notifications</span>
+            </a>
+
+        </nav>
+
+
+        <div class="menu-label" style="margin-top: 28px;">
+            ACCOUNT
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="/profile">
+                <div class="menu-icon">♙</div>
+                <span>Profile</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="help-box">
+
+                <h4>
+                    Need help?
+                </h4>
+
+                <p>
+                    Report your item and FindIt will
+                    help identify potential matches.
+                </p>
+
+                <a href="#">
+                    How it works →
+                </a>
+
+            </div>
+
+
+            <a href="/logout" class="logout">
+                ↪ &nbsp; Log Out
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================= -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="page-heading">
+
+                <h2>
+                    Matches
+                </h2>
+
+                <p>
+                    Potential lost & found item matches
+                </p>
+
+            </div>
+
+
+            <div class="top-right">
+
+                <div class="user">
+
+                    <div class="avatar">
+                        {{ user_name[0].upper() }}
+                    </div>
+
+                    <div class="user-details">
+
+                        <strong>
+                            {{ user_name }}
+                        </strong>
+
+                        <span>
+                            Student
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE INTRO -->
+
+        <section class="intro">
+
+           
+
+        </section>
+
+
+        {% if matches %}
+
+
+            {% for match in matches %}
+
+            <section class="match-card">
+
+
+                <!-- MATCH HEADER -->
+
+                <div class="match-header">
+
+                    <div class="match-title">
+
+                        <div class="match-icon">
+                            ⌕
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Possible Item Match
+                            </h3>
+
+                            <p>
+                                Match ID #{{ match[0] }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="score">
+                        {{ match[1] }}% Match
+                    </div>
+
+                </div>
+
+
+                <!-- LOST / FOUND -->
+
+                <div class="items-grid">
+
+
+                    <!-- LOST -->
+
+                    <div class="item-box">
+
+                        <div class="item-label">
+                            LOST ITEM
+                        </div>
+
+                        <div class="item-name">
+                            {{ match[3] }}
+                        </div>
+
+
+                        <div class="details">
+
+                            <div class="detail">
+
+                                <h4>
+                                    Category
+                                </h4>
+
+                                <p>
+                                    {{ match[4] }}
+                                </p>
+
+                            </div>
+
+
+                            <div class="detail">
+
+                                <h4>
+                                    Color
+                                </h4>
+
+                                <p>
+                                    {{ match[5] }}
+                                </p>
+
+                            </div>
+
+
+                            <div class="detail">
+
+                                <h4>
+                                    Location
+                                </h4>
+
+                                <p>
+                                    {{ match[6] }}
+                                </p>
+
+                            </div>
+
+
+                            <div class="detail">
+
+                                <h4>
+                                    Date
+                                </h4>
+
+                                <p>
+                                    {{ match[7] }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FOUND -->
+
+                    <div class="item-box">
+
+                        <div class="item-label">
+                            FOUND ITEM
+                        </div>
+
+                        <div class="item-name">
+                            {{ match[8] }}
+                        </div>
+
+
+                        <div class="details">
+
+                            <div class="detail">
+
+                                <h4>
+                                    Category
+                                </h4>
+
+                                <p>
+                                    {{ match[9] }}
+                                </p>
+
+                            </div>
+
+
+                            <div class="detail">
+
+                                <h4>
+                                    Color
+                                </h4>
+
+                                <p>
+                                    {{ match[10] }}
+                                </p>
+
+                            </div>
+
+
+                            <div class="detail">
+
+                                <h4>
+                                    Location
+                                </h4>
+
+                                <p>
+                                    {{ match[11] }}
+                                </p>
+
+                            </div>
+
+
+                            <div class="detail">
+
+                                <h4>
+                                    Date
+                                </h4>
+
+                                <p>
+                                    {{ match[12] }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SCORE DETAILS -->
+
+                <div class="score-section">
+
+                    <div class="score-title">
+                        Match Score Breakdown
+                    </div>
+
+
+                    <div class="score-grid">
+
+    <div class="score-box">
+        <span>Match</span>
+        <strong>{{ match[1] }}%</strong>
+    </div>
+
+    <div class="score-box">
+    <span>Status</span>
+
+    {% if match[16] == 1 %}
+        <strong>Verified</strong>
+    {% else %}
+        <strong>Potential</strong>
+    {% endif %}
+
+</div>
+
+    <div class="score-box">
+        <span>Items</span>
+        <strong>{{ match[3] }} ↔ {{ match[8] }}</strong>
+    </div>
+
+    <div class="score-box">
+        <span>Match ID</span>
+        <strong>#{{ match[0] }}</strong>
+    </div>
+
+</div>
+
+                <!-- FOOTER -->
+
+                <div class="match-footer">
+
+                    <span class="created">
+                        Match created: {{ match[2] }}
+                    </span>
+
+                    <a href="/matches?verify={{ match[0] }}" class="verify-btn">
+    Verify Ownership →
+</a>
+
+                </div>
+{% if verify_match_id and verify_match_id|string == match[0]|string %}
+
+<div class="verification-box">
+
+    <h3>Verify Ownership</h3>
+
+    <p class="verification-info">
+        Answer the questions below to confirm that this item belongs to you.
+    </p>
+
+    <form method="POST" action="/verify">
+
+        <input type="hidden" name="match_id" value="{{ match[0] }}">
+
+       <div class="question">
+    <label>What private identifying detail did you provide for this item?</label>
+
+    <input
+        type="text"
+        name="verification_answer"
+        placeholder="Enter the private detail"
+        required
+    >
+</div>
+
+        <button type="submit" class="submit-verification">
+            Submit Verification
+        </button>
+
+    </form>
+
+</div>
+
+{% endif %}
+
+            </section>
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <section class="empty">
+
+                <div class="empty-icon">
+                    ⌕
+                </div>
+
+                <h3>
+                    No matches yet
+                </h3>
+
+                <p>
+                    When FindIt identifies a potential match,
+                    it will appear here.
+                </p>
+
+            </section>
+
+
+        {% endif %}
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

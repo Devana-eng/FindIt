@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FindIt | Lost & Found</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #eef2f8;
+            color: #17233d;
+            padding: 14px;
+        }
+
+        /* =========================================
+           APPLICATION FRAME
+        ========================================= */
+
+        .app {
+            max-width: 1450px;
+            min-height: calc(100vh - 28px);
+
+            margin: auto;
+
+            background: #f8faff;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            box-shadow: 0 8px 35px rgba(22, 38, 65, 0.10);
+
+            display: flex;
+        }
+
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+
+        .sidebar {
+            width: 220px;
+
+            background: #101d36;
+
+            color: white;
+
+            padding: 25px 16px;
+
+            display: flex;
+            flex-direction: column;
+
+            flex-shrink: 0;
+        }
+
+
+        /* LOGO */
+
+        .logo {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 0 10px;
+
+            margin-bottom: 42px;
+        }
+
+        .logo-mark {
+            width: 35px;
+            height: 35px;
+
+            border-radius: 11px;
+
+            background: #6258f5;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 20px;
+
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: #8d88ff;
+        }
+
+
+        /* MENU */
+
+        .menu-label {
+            color: #71809b;
+
+            font-size: 9px;
+
+            letter-spacing: 1.2px;
+
+            font-weight: 700;
+
+            padding: 0 12px;
+
+            margin-bottom: 10px;
+        }
+
+        .menu {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+        }
+
+        .menu a {
+            text-decoration: none;
+
+            color: #aeb9cb;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 11px 12px;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #182946;
+
+            color: white;
+        }
+
+        .menu a.active {
+            background: #293b67;
+
+            color: white;
+        }
+
+        .menu-icon {
+            width: 19px;
+
+            text-align: center;
+
+            font-size: 15px;
+        }
+
+
+        /* SIDEBAR BOTTOM */
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .help-box {
+            background: #172743;
+
+            border-radius: 10px;
+
+            padding: 14px;
+
+            margin-bottom: 16px;
+        }
+
+        .help-box h4 {
+            font-size: 11px;
+
+            margin-bottom: 6px;
+        }
+
+        .help-box p {
+            color: #8998af;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+
+            margin-bottom: 9px;
+        }
+
+        .help-box a {
+            color: #8d88ff;
+
+            font-size: 9px;
+
+            text-decoration: none;
+        }
+
+        .logout {
+            color: #8c99ad;
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+            padding: 8px 12px;
+
+            display: block;
+        }
+
+
+        /* =========================================
+           MAIN AREA
+        ========================================= */
+
+        .main {
+            flex: 1;
+
+            min-width: 0;
+
+            padding: 24px 28px;
+
+            background: #f8faff;
+        }
+
+
+        /* =========================================
+           TOP BAR
+        ========================================= */
+
+        .topbar {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 23px;
+        }
+
+        .page-heading h2 {
+            font-size: 20px;
+
+            font-weight: 650;
+        }
+
+        .page-heading p {
+            color: #8b96a9;
+
+            font-size: 11px;
+
+            margin-top: 4px;
+        }
+
+        .top-right {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .notification {
+            width: 35px;
+            height: 35px;
+
+            background: white;
+
+            border: 1px solid #e8ecf3;
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 15px;
+
+            cursor: pointer;
+        }
+
+        .user {
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+
+            border-radius: 50%;
+
+            background: #e4e5ff;
+
+            color: #6258f5;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+        .user-details strong {
+            display: block;
+
+            font-size: 10px;
+        }
+
+        .user-details span {
+            display: block;
+
+            color: #929caf;
+
+            font-size: 8px;
+
+            margin-top: 2px;
+        }
+
+
+        /* =========================================
+           WELCOME CARD
+        ========================================= */
+
+        .welcome {
+            min-height: 230px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    110deg,
+                    #102342,
+                    #193b5d
+                );
+
+            padding: 32px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            margin-bottom: 24px;
+        }
+
+        .welcome::before {
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            border-radius: 50%;
+
+            border: 50px solid rgba(120, 125, 255, 0.07);
+
+            right: -90px;
+            top: -150px;
+        }
+
+        .welcome::after {
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            border-radius: 50%;
+
+            background: rgba(81, 199, 191, 0.06);
+
+            right: 190px;
+            bottom: -110px;
+        }
+
+        .welcome-content {
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 650px;
+        }
+
+        .welcome-label {
+            color: #8d88ff;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.4px;
+
+            margin-bottom: 12px;
+        }
+
+        .welcome h1 {
+            color: white;
+
+            font-size: 30px;
+
+            line-height: 1.2;
+
+            margin-bottom: 10px;
+        }
+
+        .welcome h1 span {
+            color: #6bb7ff;
+        }
+
+        .welcome p {
+            color: #b9c7d9;
+
+            font-size: 11px;
+
+            line-height: 1.7;
+
+            max-width: 550px;
+
+            margin-bottom: 21px;
+        }
+
+        .welcome-buttons {
+            display: flex;
+
+            gap: 9px;
+        }
+
+        .lost-btn,
+        .found-btn {
+            padding: 10px 17px;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+
+            font-size: 10px;
+
+            font-weight: 600;
+        }
+
+        .lost-btn {
+            background: #6258f5;
+
+            color: white;
+        }
+
+        .found-btn {
+            border: 1px solid #7186a3;
+
+            color: white;
+        }
+
+
+        /* =========================================
+           QUICK ACTIONS
+        ========================================= */
+
+        .section-title {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 13px;
+        }
+
+        .section-title h3 {
+            font-size: 14px;
+        }
+
+        .section-title span {
+            color: #8d96a7;
+
+            font-size: 9px;
+        }
+
+        .quick-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 13px;
+
+            margin-bottom: 24px;
+        }
+
+        .quick-card {
+            background: white;
+
+            border: 1px solid #e9edf4;
+
+            border-radius: 12px;
+
+            padding: 17px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            text-decoration: none;
+
+            color: #17233d;
+
+            transition: 0.2s;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow: 0 7px 20px rgba(30, 50, 80, 0.08);
+        }
+
+        .quick-icon {
+            width: 39px;
+            height: 39px;
+
+            flex-shrink: 0;
+
+            border-radius: 10px;
+
+            background: #efefff;
+
+            color: #6258f5;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 16px;
+        }
+
+        .quick-card h4 {
+            font-size: 13px;
+
+            margin-bottom: 4px;
+        }
+
+        .quick-card p {
+            color: #919bad;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================
+           BOTTOM SECTION
+        ========================================= */
+
+        .bottom-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 15px;
+        }
+
+        .panel {
+            background: white;
+
+            border: 1px solid #e9edf4;
+
+            border-radius: 12px;
+
+            padding: 18px;
+        }
+
+        .panel-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 15px;
+        }
+
+        .panel-header h3 {
+            font-size: 13px;
+        }
+
+        .panel-header a {
+            color: #6258f5;
+
+            text-decoration: none;
+
+            font-size: 11px;
+        }
+
+
+        /* WORKFLOW */
+
+        .workflow {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+        .step {
+            text-align: center;
+
+            flex: 1;
+
+            position: relative;
+        }
+
+        .step:not(:last-child)::after {
+            content: "";
+
+            position: absolute;
+
+            top: 16px;
+
+            left: 62%;
+
+            width: 76%;
+
+            height: 1px;
+
+            background: #dfe3eb;
+        }
+
+        .step-icon {
+            position: relative;
+
+            z-index: 2;
+
+            width: 32px;
+            height: 32px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            background: #efefff;
+
+            color: #6258f5;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 12px;
+        }
+
+        .step strong {
+            display: block;
+
+            font-size: 13px;
+
+            margin-top: 7px;
+        }
+
+        .step span {
+            display: block;
+
+            color: #9aa3b3;
+
+            font-size: 11px;
+
+            margin-top: 3px;
+        }
+
+
+        /* FEATURES */
+
+        .feature-list {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px;
+        }
+
+        .feature {
+            padding: 10px;
+
+            border-radius: 8px;
+
+            background: #f7f8fc;
+        }
+
+        .feature strong {
+            display: block;
+
+            font-size: 10px;
+
+            margin-bottom: 4px;
+        }
+
+        .feature span {
+            color: #929bad;
+
+            font-size: 9px;
+
+            line-height: 1.4;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 185px;
+            }
+
+            .quick-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 0;
+            }
+
+            .app {
+                border-radius: 0;
+
+                min-height: 100vh;
+            }
+
+            .sidebar {
+                width: 65px;
+
+                padding: 20px 8px;
+            }
+
+            .logo {
+                justify-content: center;
+
+                padding: 0;
+            }
+
+            .logo-text,
+            .menu-label,
+            .menu a span,
+            .help-box,
+            .logout {
+                display: none;
+            }
+
+            .menu a {
+                justify-content: center;
+
+                padding: 12px 5px;
+            }
+
+            .main {
+                padding: 20px 15px;
+            }
+
+            .user-details {
+                display: none;
+            }
+
+            .welcome {
+                padding: 25px;
+            }
+
+            .welcome h1 {
+                font-size: 25px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================= -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            <div class="logo-mark">
+                F
+            </div>
+
+            <div class="logo-text">
+                Find<span>It</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-label">
+            MAIN MENU
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="/" class="active">
+
+                <div class="menu-icon">⌂</div>
+
+                <span>Home</span>
+
+            </a>
+
+
+            <a href="/report">
+
+                <div class="menu-icon">＋</div>
+
+                <span>Report Item</span>
+
+            </a>
+
+
+
+            <a href="/matches">
+
+                <div class="menu-icon">⌕</div>
+
+                <span>Matches</span>
+
+            </a>
+
+
+            <a href="/notifications">
+
+                <div class="menu-icon">♢</div>
+
+                <span>Notifications</span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="menu-label" style="margin-top: 28px;">
+            ACCOUNT
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="/profile">
+
+                <div class="menu-icon">♙</div>
+
+                <span>Profile</span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="help-box">
+
+                <h4>
+                    Need help?
+                </h4>
+
+                <p>
+                    Report your item and FindIt will
+                    help identify potential matches.
+                </p>
+
+                <a href="#">
+                    How it works →
+                </a>
+
+            </div>
+
+
+            <a href="/logout" class="logout">
+                ↪ &nbsp; Log Out
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================= -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="page-heading">
+
+                <h2>
+                    Home
+                </h2>
+
+                <p>
+                    Lost & Found Intelligent Matching System
+                </p>
+
+            </div>
+
+
+            <div class="top-right">
+
+                
+
+
+                <div class="user">
+
+            <div class="user">
+
+    <div class="avatar">
+        {{ user_name[0].upper() }}
+    </div>
+
+    <div class="user-details">
+
+        <strong>
+            {{ user_name }}
+        </strong>
+
+        <span>
+            Student
+        </span>
+
+    </div>
+
+</div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================================
+             WELCOME
+        ========================================= -->
+
+        <section class="welcome">
+
+            <div class="welcome-content">
+
+                <div class="welcome-label">
+                    COLLEGE LOST & FOUND SYSTEM
+                </div>
+
+                <h1>
+                    Find what you lost.<br>
+                    <span>Return what you found.</span>
+                </h1>
+
+                <p>
+                    Report lost or found belongings and let FindIt
+                    identify potential matches using category,
+                    color, location and date similarity.
+                </p>
+
+
+                <div class="welcome-buttons">
+
+                    <a href="/report" class="lost-btn">
+                        + Report an Item
+                    </a>
+
+                    <a href="/matches" class="found-btn">
+                        View Matches
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================
+             QUICK ACTIONS
+        ========================================= -->
+
+        <div class="section-title">
+
+            <h3>
+                Quick Actions
+            </h3>
+
+            <span>
+                Manage your lost & found items
+            </span>
+
+        </div>
+
+
+        <div class="quick-grid">
+
+
+            <a href="/report?type=Lost" class="quick-card">
+
+                <div class="quick-icon">
+                    +
+                </div>
+
+                <div>
+
+                    <h4>
+                        Report Lost Item
+                    </h4>
+
+                    <p>
+                        Tell us what you lost
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <a href="/report?type=Found" class="quick-card">
+
+                <div class="quick-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <h4>
+                        Report Found Item
+                    </h4>
+
+                    <p>
+                        Help return an item
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <a href="/matches" class="quick-card">
+
+                <div class="quick-icon">
+                    ⌕
+                </div>
+
+                <div>
+
+                    <h4>
+                        Check Matches
+                    </h4>
+
+                    <p>
+                        View potential matches
+                    </p>
+
+                </div>
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =========================================
+             BOTTOM
+        ========================================= -->
+
+        <div class="bottom-grid">
+
+
+            <!-- WORKFLOW -->
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        How FindIt Works
+                    </h3>
+
+                </div>
+
+
+                <div class="workflow">
+
+
+                    <div class="step">
+
+                        <div class="step-icon">
+                            1
+                        </div>
+
+                        <strong>
+                            Report
+                        </strong>
+
+                        <span>
+                            Lost / Found
+                        </span>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-icon">
+                            2
+                        </div>
+
+                        <strong>
+                            Match
+                        </strong>
+
+                        <span>
+                            Compare details
+                        </span>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-icon">
+                            3
+                        </div>
+
+                        <strong>
+                            Verify
+                        </strong>
+
+                        <span>
+                            Answer questions
+                        </span>
+
+                    </div>
+
+
+                    <div class="step">
+
+                        <div class="step-icon">
+                            4
+                        </div>
+
+                        <strong>
+                            Return
+                        </strong>
+
+                        <span>
+                            Item recovered
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- PROJECT FEATURES -->
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        FindIt Features
+                    </h3>
+
+                </div>
+
+
+                <div class="feature-list">
+
+
+                    <div class="feature">
+
+                        <strong>
+                            Smart Matching
+                        </strong>
+
+                        <span>
+                            Category, color, location
+                            and date similarity.
+                        </span>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            Match Score
+                        </strong>
+
+                        <span>
+                            Calculate a score based
+                            on matching attributes.
+                        </span>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            Notifications
+                        </strong>
+
+                        <span>
+                            Alert users when a
+                            potential match is found.
+                        </span>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <strong>
+                            Secure Verification
+                        </strong>
+
+                        <span>
+                            Verify ownership before
+                            returning the item.
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

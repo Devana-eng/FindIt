@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notifications - FindIt</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #eef2f8;
+            color: #17233d;
+            padding: 14px;
+        }
+
+        /* ===============================
+           APPLICATION FRAME
+        =============================== */
+
+        .app {
+            max-width: 1450px;
+            min-height: calc(100vh - 28px);
+            margin: auto;
+            background: #f8faff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 35px rgba(22, 38, 65, 0.10);
+            display: flex;
+        }
+
+
+        /* ===============================
+           SIDEBAR
+        =============================== */
+
+        .sidebar {
+            width: 220px;
+            background: #101d36;
+            color: white;
+            padding: 25px 16px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px;
+            margin-bottom: 42px;
+        }
+
+        .logo-mark {
+            width: 35px;
+            height: 35px;
+            border-radius: 11px;
+            background: #6258f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: #8d88ff;
+        }
+
+        .menu-label {
+            color: #71809b;
+            font-size: 9px;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            padding: 0 12px;
+            margin-bottom: 10px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #aeb9cb;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #182946;
+            color: white;
+        }
+
+        .menu a.active {
+            background: #293b67;
+            color: white;
+        }
+
+        .menu-icon {
+            width: 19px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .help-box {
+            background: #172743;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .help-box h4 {
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        .help-box p {
+            color: #8998af;
+            font-size: 9px;
+            line-height: 1.5;
+            margin-bottom: 9px;
+        }
+
+        .help-box a {
+            color: #8d88ff;
+            font-size: 9px;
+            text-decoration: none;
+        }
+
+        .logout {
+            color: #8c99ad;
+            text-decoration: none;
+            font-size: 10px;
+            padding: 8px 12px;
+            display: block;
+        }
+
+
+        /* ===============================
+           MAIN
+        =============================== */
+
+        .main {
+            flex: 1;
+            min-width: 0;
+            padding: 24px 28px;
+            background: #f8faff;
+        }
+
+
+        /* ===============================
+           TOP BAR
+        =============================== */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 23px;
+        }
+
+        .page-heading h2 {
+            font-size: 20px;
+            font-weight: 650;
+        }
+
+        .page-heading p {
+            color: #8b96a9;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #e4e5ff;
+            color: #6258f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .user-details strong {
+            display: block;
+            font-size: 10px;
+        }
+
+        .user-details span {
+            display: block;
+            color: #929caf;
+            font-size: 8px;
+            margin-top: 2px;
+        }
+
+
+        /* ===============================
+           INTRO
+        =============================== */
+
+        .intro {
+            margin-bottom: 18px;
+        }
+
+        .intro h1 {
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
+
+        .intro p {
+            color: #8b96a9;
+            font-size: 11px;
+        }
+
+
+        /* ===============================
+           NOTIFICATIONS
+        =============================== */
+
+        .notifications {
+            max-width: 100%;
+        }
+
+        .notification {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 17px;
+            border: 1px solid #e9edf4;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: white;
+            transition: 0.2s;
+        }
+
+        .notification:hover {
+            box-shadow: 0 7px 20px rgba(30, 50, 80, 0.07);
+        }
+
+        .notification.unread {
+            background: #f7f8ff;
+            border-left: 4px solid #6258f5;
+        }
+
+        .notification-icon {
+            width: 39px;
+            height: 39px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            background: #efefff;
+            color: #6258f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-content h3 {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .notification-content p {
+            font-size: 10px;
+            color: #687386;
+            line-height: 1.6;
+        }
+
+        .notification-time {
+            font-size: 9px;
+            color: #9aa2b1;
+            white-space: nowrap;
+        }
+
+
+        /* ===============================
+           EMPTY STATE
+        =============================== */
+
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            border: 1px solid #e9edf4;
+            border-radius: 12px;
+            background: white;
+        }
+
+        .empty-icon {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 15px;
+            border-radius: 13px;
+            background: #efefff;
+            color: #6258f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .empty h3 {
+            color: #17233d;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .empty p {
+            color: #929bad;
+            font-size: 10px;
+        }
+
+
+        /* ===============================
+           RESPONSIVE
+        =============================== */
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 0;
+            }
+
+            .app {
+                border-radius: 0;
+                min-height: 100vh;
+            }
+
+            .sidebar {
+                width: 65px;
+                padding: 20px 8px;
+            }
+
+            .logo {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .logo-text,
+            .menu-label,
+            .menu a span,
+            .help-box,
+            .logout {
+                display: none;
+            }
+
+            .menu a {
+                justify-content: center;
+                padding: 12px 5px;
+            }
+
+            .main {
+                padding: 20px 15px;
+            }
+
+            .user-details {
+                display: none;
+            }
+
+            .notification {
+                align-items: flex-start;
+            }
+
+            .notification-time {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- ===============================
+         SIDEBAR
+    =============================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-mark">
+                F
+            </div>
+
+            <div class="logo-text">
+                Find<span>It</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-label">
+            MAIN MENU
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="/">
+                <div class="menu-icon">⌂</div>
+                <span>Home</span>
+            </a>
+
+            <a href="/report">
+                <div class="menu-icon">＋</div>
+                <span>Report Item</span>
+            </a>
+
+            <a href="/matches">
+                <div class="menu-icon">⌕</div>
+                <span>Matches</span>
+            </a>
+
+            <a href="/notifications" class="active">
+                <div class="menu-icon">♢</div>
+                <span>Notifications</span>
+            </a>
+
+        </nav>
+
+
+        <div class="menu-label" style="margin-top: 28px;">
+            ACCOUNT
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="/profile">
+                <div class="menu-icon">♙</div>
+                <span>Profile</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="help-box">
+
+                <h4>
+                    Need help?
+                </h4>
+
+                <p>
+                    Report your item and FindIt will
+                    help identify potential matches.
+                </p>
+
+                <a href="#">
+                    How it works →
+                </a>
+
+            </div>
+
+
+            <a href="/logout" class="logout">
+                ↪ &nbsp; Log Out
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ===============================
+         MAIN CONTENT
+    =============================== -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="page-heading">
+
+                <h2>
+                    Notifications
+                </h2>
+
+                <p>
+                    Lost & Found Intelligent Matching System
+                </p>
+
+            </div>
+
+
+            <div class="top-right">
+
+                <div class="user">
+
+                    <div class="avatar">
+                        {{ user_name[0].upper() }}
+                    </div>
+
+                    <div class="user-details">
+
+                        <strong>
+                            {{ user_name }}
+                        </strong>
+
+                        <span>
+                            Student
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        
+
+
+        {% if notifications %}
+
+        <div class="notifications">
+
+            {% for notification in notifications %}
+
+            <div class="notification {% if notification[5] == 0 %}unread{% endif %}">
+
+                <div class="notification-icon">
+                    🔔
+                </div>
+
+                <div class="notification-content">
+
+                    <h3>
+                        FindIt Notification
+                    </h3>
+
+                    <p>
+                        {{ notification[3] }}
+                    </p>
+
+                </div>
+
+                <div class="notification-time">
+                    {{ notification[6] }}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                🔔
+            </div>
+
+            <h3>
+                No notifications yet
+            </h3>
+
+            <p>
+                You'll receive notifications when a potential match is found.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

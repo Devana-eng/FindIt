@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FindIt - Report Item</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #eef2f8;
+            color: #17233d;
+            padding: 14px;
+        }
+
+
+        /* ===============================
+           APPLICATION FRAME
+        =============================== */
+
+        .app {
+            max-width: 1450px;
+            min-height: calc(100vh - 28px);
+            margin: auto;
+            background: #f8faff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 35px rgba(22, 38, 65, 0.10);
+            display: flex;
+        }
+
+
+        /* ===============================
+           SIDEBAR
+        =============================== */
+
+        .sidebar {
+            width: 220px;
+            background: #101d36;
+            color: white;
+            padding: 25px 16px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px;
+            margin-bottom: 42px;
+        }
+
+        .logo-mark {
+            width: 35px;
+            height: 35px;
+            border-radius: 11px;
+            background: #6258f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: #8d88ff;
+        }
+
+        .menu-label {
+            color: #71809b;
+            font-size: 9px;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            padding: 0 12px;
+            margin-bottom: 10px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #aeb9cb;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #182946;
+            color: white;
+        }
+
+        .menu a.active {
+            background: #293b67;
+            color: white;
+        }
+
+        .menu-icon {
+            width: 19px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .help-box {
+            background: #172743;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .help-box h4 {
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        .help-box p {
+            color: #8998af;
+            font-size: 9px;
+            line-height: 1.5;
+            margin-bottom: 9px;
+        }
+
+        .help-box a {
+            color: #8d88ff;
+            font-size: 9px;
+            text-decoration: none;
+        }
+
+        .logout {
+            color: #8c99ad;
+            text-decoration: none;
+            font-size: 10px;
+            padding: 8px 12px;
+            display: block;
+        }
+
+
+        /* ===============================
+           MAIN
+        =============================== */
+
+        .main {
+            flex: 1;
+            min-width: 0;
+            padding: 24px 28px;
+            background: #f8faff;
+        }
+
+
+        /* ===============================
+           TOP BAR
+        =============================== */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 23px;
+        }
+
+        .page-heading h2 {
+            font-size: 20px;
+            font-weight: 650;
+        }
+
+        .page-heading p {
+            color: #8b96a9;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #e4e5ff;
+            color: #6258f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .user-details strong {
+            display: block;
+            font-size: 10px;
+        }
+
+        .user-details span {
+            display: block;
+            color: #929caf;
+            font-size: 8px;
+            margin-top: 2px;
+        }
+
+
+        /* ===============================
+           CONTENT
+        =============================== */
+
+        .content {
+            max-width: 950px;
+        }
+
+        .intro {
+            margin-bottom: 18px;
+        }
+
+        .intro h1 {
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
+
+        .intro p {
+            color: #8b96a9;
+            font-size: 11px;
+        }
+
+
+        /* ===============================
+           FORM CARD
+        =============================== */
+
+        .form-card {
+            background: white;
+            border: 1px solid #e9edf4;
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+
+        
+
+        .report-type {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .type-option {
+            flex: 1;
+        }
+
+        .type-option input {
+            display: none;
+        }
+
+        .type-option label {
+            display: block;
+            padding: 13px;
+            border: 1px solid #e0e5ed;
+            border-radius: 9px;
+            text-align: center;
+            cursor: pointer;
+            color: #687386;
+            font-size: 11px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .type-option label:hover {
+            border-color: #6258f5;
+        }
+
+        .type-option input:checked + label {
+            background: #101d36;
+            border-color: #101d36;
+            color: white;
+        }
+
+
+        /* ===============================
+           FORM ROW
+        =============================== */
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-group {
+            flex: 1;
+            margin-bottom: 15px;
+        }
+
+        .form-group.full {
+            width: 100%;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 10px;
+            font-weight: 650;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid #dfe4ec;
+            border-radius: 8px;
+            padding: 10px 11px;
+            font-size: 10px;
+            outline: none;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: white;
+            color: #17233d;
+            transition: 0.2s;
+        }
+
+        .form-group input,
+        .form-group select {
+            height: 40px;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #a2a9b6;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #6258f5;
+            box-shadow: 0 0 0 3px rgba(98, 88, 245, 0.08);
+        }
+
+
+        /* ===============================
+           FILE INPUT
+        =============================== */
+
+        .form-group input[type="file"] {
+            padding: 8px;
+            height: auto;
+            font-size: 10px;
+        }
+
+
+        /* ===============================
+           SUBMIT BUTTON
+        =============================== */
+
+        .submit-btn {
+            width: 100%;
+            height: 42px;
+            border: none;
+            border-radius: 8px;
+            background: #6258f5;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 11px;
+            margin-top: 3px;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #5148df;
+        }
+
+
+        /* ===============================
+           RESPONSIVE
+        =============================== */
+
+        @media (max-width: 900px) {
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 0;
+            }
+
+            .app {
+                border-radius: 0;
+                min-height: 100vh;
+            }
+
+            .sidebar {
+                width: 65px;
+                padding: 20px 8px;
+            }
+
+            .logo {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .logo-text,
+            .menu-label,
+            .menu a span,
+            .help-box,
+            .logout {
+                display: none;
+            }
+
+            .menu a {
+                justify-content: center;
+                padding: 12px 5px;
+            }
+
+            .main {
+                padding: 20px 15px;
+            }
+
+            .user-details {
+                display: none;
+            }
+
+            .report-type {
+                flex-direction: column;
+            }
+
+            .form-card {
+                padding: 16px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- ===============================
+         SIDEBAR
+    =============================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-mark">
+                F
+            </div>
+
+            <div class="logo-text">
+                Find<span>It</span>
+            </div>
+
+        </div>
+
+
+        <div class="menu-label">
+            MAIN MENU
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="/">
+                <div class="menu-icon">⌂</div>
+                <span>Home</span>
+            </a>
+
+            <a href="/report" class="active">
+                <div class="menu-icon">＋</div>
+                <span>Report Item</span>
+            </a>
+
+            <a href="/matches">
+                <div class="menu-icon">⌕</div>
+                <span>Matches</span>
+            </a>
+
+            <a href="/notifications">
+                <div class="menu-icon">♢</div>
+                <span>Notifications</span>
+            </a>
+
+        </nav>
+
+
+        <div class="menu-label" style="margin-top: 28px;">
+            ACCOUNT
+        </div>
+
+
+        <nav class="menu">
+
+            <a href="/profile">
+                <div class="menu-icon">♙</div>
+                <span>Profile</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="help-box">
+
+                <h4>
+                    Need help?
+                </h4>
+
+                <p>
+                    Report your item and FindIt will
+                    help identify potential matches.
+                </p>
+
+                <a href="#">
+                    How it works →
+                </a>
+
+            </div>
+
+
+            <a href="/logout" class="logout">
+                ↪ &nbsp; Log Out
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ===============================
+         MAIN
+    =============================== -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="page-heading">
+
+                <h2>
+                    Report Item
+                </h2>
+
+                <p>
+                    Lost & Found Intelligent Matching System
+                </p>
+
+            </div>
+
+
+            <div class="top-right">
+
+                <div class="user">
+
+                    <div class="avatar">
+                        {{ user_name[0].upper() }}
+                    </div>
+
+                    <div class="user-details">
+
+                        <strong>
+                            {{ user_name }}
+                        </strong>
+
+                        <span>
+                            Student
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- INTRO -->
+
+        <section class="intro">
+
+            
+
+        </section>
+
+
+        <!-- FORM -->
+
+        <div class="content">
+
+            <div class="form-card">
+
+                <form action="/report" method="POST" enctype="multipart/form-data">
+
+
+                    <!-- LOST / FOUND -->
+
+                    <div class="report-type">
+
+                        <div class="type-option">
+
+                            <input
+                                type="radio"
+                                id="lost"
+                                name="report_type"
+                                value="Lost"
+                                checked
+                            >
+
+                            <label for="lost">
+                                🔍 I Lost an Item
+                            </label>
+
+                        </div>
+
+
+                        <div class="type-option">
+
+                            <input
+                                type="radio"
+                                id="found"
+                                name="report_type"
+                                value="Found"
+                            >
+
+                            <label for="found">
+                                📦 I Found an Item
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ITEM NAME + CATEGORY -->
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>
+                                Item Name
+                            </label>
+
+                            <input
+                                type="text"
+                                name="item_name"
+                                placeholder="Example: Black wallet"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Category
+                            </label>
+
+                            <select name="category" required>
+
+                                <option value="">
+                                    Select category
+                                </option>
+
+                                <option value="Electronics">
+                                    Electronics
+                                </option>
+
+                                <option value="Wallet">
+                                    Wallet
+                                </option>
+
+                                <option value="Bag">
+                                    Bag
+                                </option>
+
+                                <option value="Keys">
+                                    Keys
+                                </option>
+
+                                <option value="Documents">
+                                    Documents
+                                </option>
+
+                                <option value="Clothing">
+                                    Clothing
+                                </option>
+
+                                <option value="Accessories">
+                                    Accessories
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COLOR + LOCATION -->
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label>
+                                Color
+                            </label>
+
+                            <input
+                                type="text"
+                                name="color"
+                                placeholder="Example: Black"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Location
+                            </label>
+
+                            <input
+                                type="text"
+                                name="location"
+                                placeholder="Example: College Library"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DATE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Date Lost / Found
+                        </label>
+
+                        <input
+                            type="date"
+                            name="item_date"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Description
+                        </label>
+
+                        <textarea
+                            name="description"
+                            placeholder="Describe the item, identifying marks, where it was lost/found, etc."
+                            required
+                        ></textarea>
+
+                    </div>
+<!-- VERIFICATION DETAIL -->
+
+<div class="form-group">
+
+    <label>
+        Private Verification Detail
+    </label>
+
+    <textarea
+        name="verification_detail"
+        placeholder="Enter a private identifying detail that only the owner would know..."
+        required
+    ></textarea>
+
+    <small>
+        This detail will be used to verify ownership.
+    </small>
+
+</div>
+
+                    <!-- IMAGE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Item Image (Optional)
+                        </label>
+
+                        <input
+                            type="file"
+                            name="image"
+                            accept="image/*"
+                        >
+
+                    </div>
+
+
+                    <!-- SUBMIT -->
+
+                    <button type="submit" class="submit-btn">
+                        Submit Report
+                    </button>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
